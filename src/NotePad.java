@@ -27,7 +27,7 @@ public class NotePad extends JFrame{
 		
 		pPrinci = new JPanel(null);
 		pPrinci.setBounds(0, 0, 600, 500);
-		pPrinci.setBackground(Color.BLUE);
+		pPrinci.setBackground(new Color(70,130,180));
 		add(pPrinci);
 		
 		digText = new JLabel("Digite seu texto aqui: ");
@@ -35,7 +35,7 @@ public class NotePad extends JFrame{
 		pPrinci.add(digText);
 		
 		taText = new TextArea();
-		taText.setBounds(5, 25, 480, 180);
+		taText.setBounds(5, 180, 500, 270);
 		pPrinci.add(taText);
 		
 	}
