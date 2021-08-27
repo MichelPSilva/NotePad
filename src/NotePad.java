@@ -3,12 +3,15 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class NotePad extends JFrame{
-
+	private JLabel digText;
+	private TextArea taText;
+	private JPanel pPrinci;
+	
 	public static void main(String args[]) {
 		JFrame frame = new NotePad();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		frame.setVisible(true);		
 	}
 	
 	public NotePad() {
@@ -21,6 +24,20 @@ public class NotePad extends JFrame{
 		setLayout(null);
 		setSize(600, 500);
 		setResizable(false);
+		
+		pPrinci = new JPanel(null);
+		pPrinci.setBounds(0, 0, 600, 500);
+		pPrinci.setBackground(Color.BLUE);
+		add(pPrinci);
+		
+		digText = new JLabel("Digite seu texto aqui: ");
+		digText.setBounds(12, 150, 150, 30);
+		pPrinci.add(digText);
+		
+		taText = new TextArea();
+		taText.setBounds(5, 25, 480, 180);
+		pPrinci.add(taText);
+		
 	}
 	
 	public void Eventos() {
