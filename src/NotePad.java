@@ -1,8 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.event.*;
 
 import java.io.*;
 
@@ -19,7 +18,6 @@ public class NotePad extends JFrame{
 	private JButton btnSalvar, btnAbrir, btnColor;
 	private FileDialog fdSalvar, fdAbrir;
 	private JComboBox cbFontes;
-	private String[] Fontes = {"Arial", "Serif", };
 	
 	private String nome_do_arquivo;
 	
@@ -92,6 +90,7 @@ public class NotePad extends JFrame{
 		taText.setLineWrap(true);
 		taText.setWrapStyleWord(true);
 		taText.setFont(new Font("Arial", Font.PLAIN, 12));
+		taText.setForeground(Color.black);
 		scrollPanel = new JScrollPane(taText);
 		scrollPanel.setBounds(5, 65, 472, 270);
 		pPrinci.add(scrollPanel);
@@ -99,8 +98,24 @@ public class NotePad extends JFrame{
 		// Configurando input do tamanho da fonte
 		fontSize = new JSpinner();
 		fontSize.setBounds(85, 5, 45, 35);
+		fontSize.setToolTipText("Tamanho");
 		fontSize.setValue(12);
 		pAcoes.add(fontSize);
+		
+		// Configurando o botão para trocar de cor
+		imgColor = new ImageIcon("imgColor.png");
+		btnColor = new JButton(imgColor);
+		btnColor.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnColor.setToolTipText("Cor");
+		btnColor.setBounds(135, 5, 35, 35);
+		pAcoes.add(btnColor);
+		
+		// Configurando ComboBox para trocar fonte
+		String[] fontes = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		cbFontes = new JComboBox(fontes);
+		cbFontes.setBounds(175, 5, 150, 32);
+		cbFontes.setSelectedItem("Arial");
+		pAcoes.add(cbFontes);
 		
 		// Configurando Tf de resposta
 		tfResposta = new JTextField ("Resposta: ");
@@ -172,6 +187,22 @@ public class NotePad extends JFrame{
 				
 			}
 		});
+		
+		btnColor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JColorChooser colorChooser = new JColorChooser();
+				Color color = colorChooser.showDialog(null, "Escolha sua cor", Color.pink);
+				taText.setForeground(color);
+			}
+		});
+		
+		cbFontes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				taText.setFont(new Font((String) cbFontes.getSelectedItem(), Font.PLAIN, taText.getFont().getSize()));
+			}
+		});
+		
+		
 	}
 	
 }
