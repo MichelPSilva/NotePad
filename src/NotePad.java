@@ -10,9 +10,9 @@ public class NotePad extends JFrame{
 	private TextArea taText;
 	private JTextField tfResposta;
 	private JPanel pPrinci, pAcoes;
-	private ImageIcon imgSalvar;
-	private JButton btnSalvar;
-	private FileDialog fdSalvar;
+	private ImageIcon imgSalvar, imgAbrir;
+	private JButton btnSalvar, btnAbrir;
+	private FileDialog fdSalvar, fdAbrir;
 	
 	private String nome_do_arquivo;
 	
@@ -66,9 +66,18 @@ public class NotePad extends JFrame{
 		btnSalvar.setToolTipText("Salvar");
 		btnSalvar.setBounds(5, 5, 35, 35);
 		pAcoes.add(btnSalvar);
+		
+		// Botão de Abrir
+		imgAbrir = new ImageIcon("imgAbrir.png");
+		btnAbrir = new JButton(imgAbrir);
+		btnAbrir.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		btnAbrir.setToolTipText("Abrir");
+		btnAbrir.setBounds(45, 5, 35, 35);
+		pAcoes.add(btnAbrir);
 
-		// Configurando janela de Salvar
+		// Configurando janela de Salvar e Abrir
 		fdSalvar = new FileDialog(this, "Salvar arquivo", FileDialog.SAVE);
+		fdAbrir = new FileDialog(this, "Abrir arquivo", FileDialog.LOAD);
 		
 		// Configurando o TextArea 
 		taText = new TextArea();
@@ -113,6 +122,32 @@ public class NotePad extends JFrame{
 			}
 		});
 		
+		btnAbrir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					fdAbrir.setVisible(true);
+					if (fdAbrir.getFile() == null) {
+						return;
+					}
+					nome_do_arquivo = fdAbrir.getDirectory()
+							+ fdAbrir.getFile();
+					FileReader in = new FileReader(nome_do_arquivo);
+					String s = "";
+					int i = in.read();
+					while (i != -1) {
+						s = s + (char) i;
+						i = in.read();
+					}
+					taText.setText(s);
+					in.close();
+					tfResposta.setText("Resposta: Arquivo aberto com sucesso");
+				} catch (IOException erro) {
+					tfResposta.setText("Resposta: Erro ao abrir no arquivo"
+							+ erro.toString());
+				}
+				
+			}
+		});
 	}
 	
 }
