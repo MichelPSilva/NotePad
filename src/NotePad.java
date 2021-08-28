@@ -1,18 +1,25 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.io.*;
 
 public class NotePad extends JFrame{
 	private JMenu arquivo;
 	private JMenuBar barMenu;
 	private JMenuItem miSair;
-	private TextArea taText;
+	private JTextArea taText;
+	private JScrollPane scrollPanel;
+	private JSpinner fontSize;
 	private JTextField tfResposta;
 	private JPanel pPrinci, pAcoes;
-	private ImageIcon imgSalvar, imgAbrir;
-	private JButton btnSalvar, btnAbrir;
+	private ImageIcon imgSalvar, imgAbrir, imgColor;
+	private JButton btnSalvar, btnAbrir, btnColor;
 	private FileDialog fdSalvar, fdAbrir;
+	private JComboBox cbFontes;
+	private String[] Fontes = {"Arial", "Serif", };
 	
 	private String nome_do_arquivo;
 	
@@ -80,10 +87,20 @@ public class NotePad extends JFrame{
 		fdAbrir = new FileDialog(this, "Abrir arquivo", FileDialog.LOAD);
 		
 		// Configurando o TextArea 
-		taText = new TextArea();
-		taText.setBounds(5, 65, 472, 270);
+		taText = new JTextArea();
 		taText.setBackground(new Color (238,232,170));
-		pPrinci.add(taText);
+		taText.setLineWrap(true);
+		taText.setWrapStyleWord(true);
+		taText.setFont(new Font("Arial", Font.PLAIN, 12));
+		scrollPanel = new JScrollPane(taText);
+		scrollPanel.setBounds(5, 65, 472, 270);
+		pPrinci.add(scrollPanel);
+		
+		// Configurando input do tamanho da fonte
+		fontSize = new JSpinner();
+		fontSize.setBounds(85, 5, 45, 35);
+		fontSize.setValue(12);
+		pAcoes.add(fontSize);
 		
 		// Configurando Tf de resposta
 		tfResposta = new JTextField ("Resposta: ");
@@ -145,6 +162,13 @@ public class NotePad extends JFrame{
 					tfResposta.setText("Resposta: Erro ao abrir no arquivo"
 							+ erro.toString());
 				}
+				
+			}
+		});
+		
+		fontSize.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				taText.setFont(new Font(taText.getFont().getFamily(), Font.PLAIN,(int) fontSize.getValue()));
 				
 			}
 		});
