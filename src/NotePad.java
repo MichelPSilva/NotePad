@@ -8,7 +8,7 @@ import java.io.*;
 public class NotePad extends JFrame{
 	private JMenu arquivo;
 	private JMenuBar barMenu;
-	private JMenuItem miSair;
+	private JMenuItem miSair, miAbrir, miSalvar;
 	private JTextArea taText;
 	private JScrollPane scrollPanel;
 	private JSpinner fontSize;
@@ -45,9 +45,17 @@ public class NotePad extends JFrame{
 		barMenu.setBackground(Color.white);
 		arquivo = new JMenu("Arquivo");
 		arquivo.setBackground(Color.white);
+		miAbrir = new JMenuItem("Abrir");
+		miAbrir.setBackground(Color.white);
+		miAbrir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
+		miSalvar = new JMenuItem("Salvar");
+		miSalvar.setBackground(Color.white);
+		miSalvar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		miSair = new JMenuItem("Sair");
 		miSair.setBackground(Color.white);
-		miSair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		miSair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+		arquivo.add(miAbrir);
+		arquivo.add(miSalvar);
 		arquivo.add(miSair);
 		barMenu.add(arquivo);
 		setJMenuBar(barMenu);
@@ -133,7 +141,34 @@ public class NotePad extends JFrame{
 			}
 		});
 		
-		btnSalvar.addActionListener(new ActionListener() {
+		miAbrir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					fdAbrir.setVisible(true);
+					if (fdAbrir.getFile() == null) {
+						return;
+					}
+					nome_do_arquivo = fdAbrir.getDirectory()
+							+ fdAbrir.getFile();
+					FileReader in = new FileReader(nome_do_arquivo);
+					String s = "";
+					int i = in.read();
+					while (i != -1) {
+						s = s + (char) i;
+						i = in.read();
+					}
+					taText.setText(s);
+					in.close();
+					tfResposta.setText("Resposta: Arquivo aberto com sucesso");
+				} catch (IOException erro) {
+					tfResposta.setText("Resposta: Erro ao abrir no arquivo"
+							+ erro.toString());
+				}
+				
+			}
+		});
+		
+		miSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					fdSalvar.setVisible(true);
@@ -150,7 +185,6 @@ public class NotePad extends JFrame{
 					tfResposta.setText("Resposta: Erro ao gravar no arquivo"
 							+ erro.toString());
 				}
-
 			}
 		});
 		
@@ -178,6 +212,27 @@ public class NotePad extends JFrame{
 							+ erro.toString());
 				}
 				
+			}
+		});
+		
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					fdSalvar.setVisible(true);
+					if (fdSalvar.getFile() == null) {
+						return;
+					}
+					nome_do_arquivo = fdSalvar.getDirectory()
+							+ fdSalvar.getFile();
+					FileWriter out = new FileWriter(nome_do_arquivo);
+					out.write(taText.getText());
+					out.close();
+					tfResposta.setText("Resposta: Arquivo gravado com sucesso");
+				} catch (IOException erro) {
+					tfResposta.setText("Resposta: Erro ao gravar no arquivo"
+							+ erro.toString());
+				}
+
 			}
 		});
 		
