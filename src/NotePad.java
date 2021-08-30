@@ -14,13 +14,13 @@ public class NotePad extends JFrame{
 	private JSpinner fontSize;
 	private JTextField tfResposta;
 	private JPanel pPrinci, pAcoes;
-	private ImageIcon imgSalvar, imgAbrir, imgColor;
-	private JButton btnSalvar, btnAbrir, btnColor;
+	private ImageIcon imgSalvar, imgAbrir, imgColor, imgN, imgI;
+	private JButton btnSalvar, btnAbrir, btnColor, btnN, btnI;
 	private FileDialog fdSalvar, fdAbrir;
 	private JComboBox cbFontes;
 	
 	private String nome_do_arquivo;
-	
+	private boolean negrito = false, italico = false; 
 	public static void main(String args[]) {
 		JFrame frame = new NotePad();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,7 +87,20 @@ public class NotePad extends JFrame{
 		btnAbrir.setToolTipText("Abrir");
 		btnAbrir.setBounds(45, 5, 35, 35);
 		pAcoes.add(btnAbrir);
-
+		
+		// Botão de Negrito
+		imgN = new ImageIcon("negrito.png");
+		btnN = new JButton(imgN);
+		btnN.setBounds(330, 5, 35, 35);
+		pAcoes.add(btnN);
+		
+		// Botão de Italico
+		imgI = new ImageIcon("italico.png");
+		btnI = new JButton(imgI);
+		btnI.setBounds(370, 5, 35, 35);
+		pAcoes.add(btnI);
+		
+		
 		// Configurando janela de Salvar e Abrir
 		fdSalvar = new FileDialog(this, "Salvar arquivo", FileDialog.SAVE);
 		fdAbrir = new FileDialog(this, "Abrir arquivo", FileDialog.LOAD);
@@ -256,8 +269,31 @@ public class NotePad extends JFrame{
 				taText.setFont(new Font((String) cbFontes.getSelectedItem(), Font.PLAIN, taText.getFont().getSize()));
 			}
 		});
+		btnN.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(italico) {
+					taText.setFont(new Font(taText.getFont().getFamily(), Font.PLAIN,(int) fontSize.getValue()));
+					negrito = false;
+				}else {
+					taText.setFont(new Font(taText.getFont().getFamily(), Font.BOLD,(int) fontSize.getValue()));
+					negrito = true;
+				}
+				
+			}
+		});
 		
-		
+		btnI.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(negrito) {
+					taText.setFont(new Font(taText.getFont().getFamily(), Font.PLAIN,(int) fontSize.getValue()));
+					italico = false;
+				}else {
+					taText.setFont(new Font(taText.getFont().getFamily(), Font.ITALIC,(int) fontSize.getValue()));
+					italico = true;
+				}
+				
+			}
+		});
 	}
 	
 }
