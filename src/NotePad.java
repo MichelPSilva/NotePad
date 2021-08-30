@@ -271,7 +271,7 @@ public class NotePad extends JFrame{
 		});
 		btnN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(italico) {
+				if(negrito) {
 					taText.setFont(new Font(taText.getFont().getFamily(), Font.PLAIN,(int) fontSize.getValue()));
 					negrito = false;
 				}else {
@@ -284,7 +284,7 @@ public class NotePad extends JFrame{
 		
 		btnI.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(negrito) {
+				if(italico) {
 					taText.setFont(new Font(taText.getFont().getFamily(), Font.PLAIN,(int) fontSize.getValue()));
 					italico = false;
 				}else {
